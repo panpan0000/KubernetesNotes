@@ -8,9 +8,12 @@ Audience:
 
 
 
-这边先highligh几个常见问题:
-1. `minikube start错误`
+先 highligh issues:
+1. `minikube start error`
 2. `container 卡在ContainerCreating`
+3. `minikube dashboard not working`
+
+Another good reference: https://qii404.me/2018/01/06/minukube.html
 
 
 
@@ -108,7 +111,7 @@ NAME                       READY               STATUS                           
 my-nginx-9d5677d94-l25bh    0/1           ContainerCreating                       0            5m
 ```
 
-Oops. No clues from "kubectl describe deployments" or any other logs..... Don't worry, look below.
+Oops. `minikube logs` can find some `error pulling` errors from `gcr.io`.
 
 
 **Why it's stuck**
@@ -141,7 +144,9 @@ my-nginx-9d5677d94-gbkhl    1/1                Running                       0  
 
 
 ## 7. Other part of the toturial :  
-剩下部分不再赘述啦
+
+剩下部分不再赘述啦( those are the same as tutorial)
+
  Expose the service
 ```
 kubectl expose deployment/my-nginx --type="NodePort"
@@ -157,6 +162,30 @@ curl ${IP}:${NODE_PORT}
 ```
 
 
+## 8 Dashboard
+`minikube dashboard` may suffer from `Could not find finalized endpoint being pointed to by kubernetes-dashboard: Error validating service: Error getting service kubernetes-dashboard: services "kubernetes-dashboard" not found`
+There're no releavant images inside minikube VM.
+it's because those dashboard/add-on images couldn't be pulled inside minikube VM, again... 
+so we follow the same pattern as above "pulling from other place, and using docker-tag to pretend as a google image.."
+
+
+
+let's pull images from 阿里云(Ali Yun):
+```
+1. Find missing image:tag from log (minikube logs|grep pulling)
+```
+example. `gcr.io/google-containers/kube-addon-manager:v6.5` is missing.
+```
+2. minikube ssh
+3. docker pull registry.cn-hangzhou.aliyuncs.com/google-containers/kube-addon-manager-amd64:v6.1 
+4. docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/kube-addon-manager-amd64:v6.1  ${the missing addon image:version}
+```
+```
+minikube stop
+minikube start
+```
+
+reference: https://qii404.me/2018/01/06/minukube.html
 
 
 
