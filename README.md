@@ -1,9 +1,14 @@
 # KubernetesNotes
 
 Audience:
-- 使用minikube 怎么解决x509证书问题(x509: certificate signed by unknown authority)
-- This article is mainly for some Corp User, who have limited access to google websites.example (x509: certificate signed by unknown authority)
+
+* 使用minikube 怎么解决x509证书问题(x509: certificate signed by unknown authority)
+* This article is mainly for some Corp User, who have limited access to google websites.example (x509: certificate signed by unknown authority)
 BTW: 本文从我内部Confluence拷贝出来。
+
+这边先highligh几个常见问题:
+1. `minikube start错误`
+2. `container 卡在ContainerCreating`
 
 
 
@@ -17,11 +22,11 @@ NOTE: below notes are for Linux (tested on Ubuntu 16.04)
 
 
 
-## Install virtualbox (https://www.virtualbox.org/wiki/Linux_Downloads)
+## 1.Install virtualbox (https://www.virtualbox.org/wiki/Linux_Downloads)
 (after that check by `vboxmanage list vms` to ensure no error message shown up
 
 
-## Download minikube
+## 2.Download minikube
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64 && \
   chmod +x minikube && \
@@ -30,13 +35,13 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/miniku
 
 
 
-## Download kubectl
+## 3.Download kubectl
 
 https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
 
 
-## Install googleapis certificate in local machine 
+## 4.Install googleapis certificate in local machine 
 (seems helpless, though...T_T 木有用，没事，关键不在这)
 
 ```
@@ -45,7 +50,7 @@ update-ca-certificates
 ```
 
 
-## Start Minikube 
+## 5.Start Minikube 
 `minikube start`
 
 ### Error Message #1:
@@ -87,7 +92,7 @@ kubectl cluster-info
 it should show sth like `Kubernetes master is running at https://192.168.**.1**:8443`
 
 
-## Deploy an APP
+## 6.Deploy an APP
 
 ```
  kubectl run my-nginx --image=nginx  --port=80
@@ -104,7 +109,8 @@ my-nginx-9d5677d94-l25bh    0/1           ContainerCreating                     
 Oops. No clues from "kubectl describe deployments" or any other logs..... Don't worry, look below.
 
 
-## Why it's stuck
+**Why it's stuck**
+
 It's stuck in "ContainerCreating" because K8S in minikube requires  `pause` image. which will be download from "gcr.io" which is not reachable from my lab again...
 
 example, in my case , it requries `gcr.io/google_containers/pause-amd64`
@@ -123,16 +129,16 @@ docker rmi -f docker.io/kubernetes/pause
 reference:  http://blog.sina.com.cn/s/blog_8ea8e9d50102ww8m.html
 
 
+**Re-deploy again**
 
-
-## Re-deploy again
 Then delete your deployment `kubectl delete deployment my-nginx` and re-deploy again `kubectl run my-nginx --image=nginx  --port=80`. Then you will find after 5-10sec, containers become "Running"!!!
 ```
 NAME                       READY               STATUS                     RESTARTS        AGE
 my-nginx-9d5677d94-gbkhl    1/1                Running                       0            10s
 ```
 
-## Other part of the toturial :  
+
+## 7. Other part of the toturial :  
 剩下部分不再赘述啦
  Expose the service
 ```
