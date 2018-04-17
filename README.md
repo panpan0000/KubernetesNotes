@@ -166,6 +166,19 @@ curl ${IP}:${NODE_PORT}
 `minikube dashboard` may suffer from `Could not find finalized endpoint being pointed to by kubernetes-dashboard: Error validating service: Error getting service kubernetes-dashboard: services "kubernetes-dashboard" not found`
 There're no releavant images inside minikube VM.
 it's because those dashboard/add-on images couldn't be pulled inside minikube VM, again... 
+There're two cases:
+1. You can't access Google (gcr.io) due to GFW inside China
+2. x509 certification error due to Corp network .
+
+for case (2), just follow below two steps:
+```
+minikube delete # delete the VM to restore clean state
+# then treat gcr.io as insecure registry. so to skip x509 certification check
+minikube start  --insecure-registry=gcr.io --insecure-registry=googleapis.com --insecure-registry=k8s.gcr.io
+
+```
+for case(1):
+
 so we follow the same pattern as above "pulling from other place, and using docker-tag to pretend as a google image.."
 
 
