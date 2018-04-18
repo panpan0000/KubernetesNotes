@@ -127,7 +127,7 @@ Below is the cure. It will download another pause image and **pretend** to be a 
 minikube ssh 
 # now you are inside the minikube VM
 docker pull docker.io/kubernetes/pause
-docker tag docker.io/kubernetes/pause gcr.io/google_containers/pause-amd64
+docker tag docker.io/kubernetes/pause gcr.io/google_containers/pause-amd64:3.0
 docker rmi -f docker.io/kubernetes/pause
 # then `docker images` to double check
 ```
