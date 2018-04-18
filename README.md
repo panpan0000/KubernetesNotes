@@ -5,10 +5,11 @@ Audience:
 * CN: 使用minikube 怎么解决x509证书问题(x509: certificate signed by unknown authority)
 * EN: This article is mainly for some Corp User, who have limited access to google websites.example (x509: certificate signed by unknown authority)
 
-= Another Way out ==  Build your own minikube : http://wiselyman.iteye.com/blog/2381738
+= If you are inside GFW, another way out ==>  Build your own minikube : http://wiselyman.iteye.com/blog/2381738
+= But it's not what we focus here..
 
 
-先 highligh issues:
+Highligh issues first:
 1. `minikube start error`
 2. `container 卡在ContainerCreating`
 3. `minikube dashboard not working`
