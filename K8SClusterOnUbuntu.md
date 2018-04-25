@@ -257,11 +257,13 @@ Error:Unable to create a persistent volume with a default storage class
 
 
 
-Q: mysql issue in toturial : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+* 10.Q: mysql issue in toturial : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
 ERROR 1130 (HY000): Host '10.244.1.39' is not allowed to connect to this MySQL server
+* 10.A: Check https://github.com/kubernetes/website/issues/8152
 
-A: Check https://github.com/kubernetes/website/issues/8152
-
+* 11.Q: HPA issue in toturial: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+HPA always return unknown `   <unknown> / 50% `
+* 11.A: Check my issue and resolution : https://github.com/kubernetes/website/issues/8173
 
 
 # Reference:
