@@ -167,18 +167,17 @@ kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep a
 
 
 #  FAQ
-1. 
-Q: When if master node is restarted (or docker service restarted ), error pops up : 
+* 1.Q: When if master node is restarted (or docker service restarted ), error pops up : 
 ```
 error: Couldn't get available api versions from server: Get https://10.62.**.**:6443/api: dial tcp 10.62.**.**:6443: getsockopt: connection refused
 ```
-A:  (1) Check if k8s services contains are running, especially the k8s_kube-apiserver. if not ,restart OS again
+* 1.A:  (1) Check if k8s services contains are running, especially the k8s_kube-apiserver. if not ,restart OS again
 
 ```
 docker ps |grep k8s_kube-apiserver
 90efa21fcc65        9df3c00f55e6                 "kube-apiserver --..."   18 hours ago        Up 18 hours                             k8s_kube-apiserver_kube-apiserver-concourse_kube-system_a0f3fb93ec00ebb37eb76cef1c833872_2
 ```
- (2) if services are running well,  override the old config again
+   (2) if services are running well,  override the old config again
 
 ```
 rm $HOME/.kube
@@ -186,54 +185,57 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-2.
-Q: when re-init the k8s master
+* 2.Q: Pod failure, when `describe pod`, Error Message:
+```
+network: open /run/flannel/subnet.env: no such file or directory
+```
+One of th reason:  kubeadm uses `weave` by default. You should try specifying the --pod-network-cidr= to make it use `flannel` instead
+Another reason:   re-copy config `cp /etc/kubernetes/admin.conf $HOME/.kube/config`
 
-A: beside the `sudo kubeadm reset` & `sudo kubeadm init .....`. Don't forget to do the config copying and flannel installation steps.
 
-3.
 
-Q: based on my own experience. don't make master joining the workload (by changing master taint),
+* 2.Q: when re-init the k8s master
 
-A: it will makes k8s service unstable (and insecute )
+* 2.A: beside the `sudo kubeadm reset` & `sudo kubeadm init .....`. Don't forget to do the config copying and flannel installation steps.
 
-4.
-Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
+* 3.Q: based on my own experience. don't make master joining the workload (by changing master taint),
+
+* 3.A: it will makes k8s service unstable (and insecute )
+
+* 4.Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
 `Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
-A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
+* 4.A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
 `kubectl get deploy kubernetes-dashboard --namespace=kube-system`
 
 
-5.
-Q: Debugging Tips 
-
-A:
- 1.  "kubecel describe" to check the last event
+* 5.Q: Debugging Tips 
+* 5.A:
+   * 1.  "kubecel describe" to check the last event
 ```
 kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-system
 ```
 
-2. check system kubelet logs
+    * 2. check system kubelet logs
 ```
 sudo journalctl -u kubelet
 ```
 
-3. Step in and Check container 
+    * 3. Step in and Check container 
 ```
 kubectl logs  $POD -c $ContainerName
 kubectl exec -it $POD  -c $ContainerName  -- /bin/bash
 ```
 
 
-Q: Volume Binding
+* 6.Q: Volume Binding
 ```
 Error:Unable to create a persistent volume with a default storage class
 ```
-A:Check the PVC StorageClassName aligns PV
+* 6.A:Check the PVC StorageClassName aligns PV
 
-Q:even previous PVC deleted,  a new PVC can't claim and bind to a PV:     
+* 7.Q:even previous PVC deleted,  a new PVC can't claim and bind to a PV:     
 ```Error :    storageclass.storage.k8s.io "manual" not found```
-A: PV default recycle strategy is "Retain", even previous PVC deleted, but its data still persist , and PV still occupied. you can delete/re-create that PV.
+* 7.A: PV default recycle strategy is "Retain", even previous PVC deleted, but its data still persist , and PV still occupied. you can delete/re-create that PV.
 
 
 
