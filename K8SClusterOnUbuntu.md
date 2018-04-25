@@ -4,13 +4,13 @@
 
 # Prerequisite
 
-Docker-CE installed.
-No Ubuntu 14.04 ! ( Ubuntu 14.04 is not supported. )
+* Docker-CE installed.
+* No Ubuntu 14.04 ! ( Ubuntu 14.04 is not supported. )
 
 
 # Steps
 
-* 1.Install k8s tools ( Both on  K8S Master & K8S Minions(slave)) 
+## 1.Install k8s tools ( Both on  K8S Master & K8S Minions(slave)) 
 
 * 1.1 add GPG key
 ```curl https://packages.cloud.google.com/apt/doc/apt-key.gpg --insecure | sudo apt-key add -```
@@ -37,7 +37,7 @@ apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 ```
 
 
-* 2.Init Master
+##  2.Init Master
 
 2.1 init
 ```
@@ -84,7 +84,7 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outfor
 ```
 
 
-# 3.Add a Slave (Minions)
+## 3.Add a Slave (Minions)
 goes to the Minions node (NOTE: the $CA_HASH & $TOKEN were retrieved in above steps)
 ```
 kubeadm join --token $TOKEN  --discovery-token-ca-cert-hash sha256:$CA_HASH     $MASTER_IP:6443
@@ -103,7 +103,7 @@ myMinions   Ready     <none>    1d        v1.10.1
 
 
 
-4. K8S Dashboard
+## 4. K8S Dashboard
 
 On your Master node:
 
