@@ -1,10 +1,10 @@
-## Prerequisite:
+# Prerequisite:
+
 Docker-CE installed.
 No Ubuntu 14.04 ! ( Ubuntu 14.04 is not supported. )
 
 
-## Steps:
-
+# Steps:
 
 * 1.Install k8s tools ( Both on  K8S Master & K8S Minions(slave)) 
 
@@ -153,7 +153,7 @@ kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep a
 
 
 
-##  FAQ
+#  FAQ
 1. 
 Q: When if master node is restarted (or docker service restarted ), error pops up : 
 ```
@@ -231,7 +231,7 @@ A: Check https://github.com/kubernetes/website/issues/8152
 
 
 
-Reference:
+# Reference:
 
 https://www.techrepublic.com/article/how-to-quickly-install-kubernetes-on-ubuntu/
 
