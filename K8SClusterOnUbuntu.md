@@ -41,6 +41,10 @@ apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 sudo swapoff -a
 ```
 
+* 1.6 Check service running (using `journalctl -u kubelet` to debug if failure)
+```
+service  kubelet status
+```
 
 ##  2.Init Master
 
