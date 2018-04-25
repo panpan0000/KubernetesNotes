@@ -36,6 +36,11 @@ apt-get update
 apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 ```
 
+* 1.5:  disable swap
+```
+sudo swapoff -a
+```
+
 
 ##  2.Init Master
 
