@@ -194,22 +194,40 @@ Another reason:   re-copy config `cp /etc/kubernetes/admin.conf $HOME/.kube/conf
 
 
 
-* 2.Q: when re-init the k8s master
 
-* 2.A: beside the `sudo kubeadm reset` & `sudo kubeadm init .....`. Don't forget to do the config copying and flannel installation steps.
 
-* 3.Q: based on my own experience. don't make master joining the workload (by changing master taint),
+* 3.Q: when re-init the k8s master
 
-* 3.A: it will makes k8s service unstable (and insecute )
+* 3.A: beside the `sudo kubeadm reset` & `sudo kubeadm init .....`. Don't forget to do the config copying and flannel installation steps.
 
-* 4.Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
+
+* 4.Q When reset a slave then re-join, pod creation may suffer from:
+```
+Failed create pod sandbox: rpc error: code = Unknown desc = NetworkPlugin cni failed to set up pod "nginx-deployment-75675f5897-lj4tw_default" network: failed to set bridge addr: "cni0" already has an IP address different from 10.244.5.1/24
+```
+* 4.A: That's because `kubeadm reset` doesn't clean up the network interface, `cni0` still keeps previous IP
+do as below:
+```
+sudo ifconfig  cni0 down
+sudo brctl delbr cni0
+sudo ip link delete flannel.1
+```
+https://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm/
+
+
+
+* 5.Q: based on my own experience. don't make master joining the workload (by changing master taint),
+
+* 5.A: it will makes k8s service unstable (and insecute )
+
+* 6.Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
 `Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
-* 4.A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
+* 6.A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
 `kubectl get deploy kubernetes-dashboard --namespace=kube-system`
 
 
-* 5.Q: Debugging Tips 
-* 5.A:
+* 7.Q: Debugging Tips 
+* 7.A:
    * 1.  "kubecel describe" to check the last event
 ```
 kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-system
@@ -227,15 +245,15 @@ kubectl exec -it $POD  -c $ContainerName  -- /bin/bash
 ```
 
 
-* 6.Q: Volume Binding
+* 8.Q: Volume Binding
 ```
 Error:Unable to create a persistent volume with a default storage class
 ```
-* 6.A:Check the PVC StorageClassName aligns PV
+* 8.A:Check the PVC StorageClassName aligns PV
 
-* 7.Q:even previous PVC deleted,  a new PVC can't claim and bind to a PV:     
+* 9.Q:even previous PVC deleted,  a new PVC can't claim and bind to a PV:     
 ```Error :    storageclass.storage.k8s.io "manual" not found```
-* 7.A: PV default recycle strategy is "Retain", even previous PVC deleted, but its data still persist , and PV still occupied. you can delete/re-create that PV.
+* 9.A: PV default recycle strategy is "Retain", even previous PVC deleted, but its data still persist , and PV still occupied. you can delete/re-create that PV.
 
 
 
