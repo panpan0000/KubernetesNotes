@@ -1,10 +1,14 @@
-# Prerequisite:
+# Install Kubernetes Cluster on Ubuntu 16.04
+
+
+
+# Prerequisite
 
 Docker-CE installed.
 No Ubuntu 14.04 ! ( Ubuntu 14.04 is not supported. )
 
 
-# Steps:
+# Steps
 
 * 1.Install k8s tools ( Both on  K8S Master & K8S Minions(slave)) 
 
