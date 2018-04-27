@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: two-app
+spec:
+
+  restartPolicy: Never
+
+  volumes:
+  - name: shared-data
+    emptyDir: { }
+
+  containers:
+
+  - name: c1 
+    image: debian
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/folder1
+    command: ["/bin/sh","-c"]
+    args:
+     - while true; do
+          date >> /usr/folder1/index.html;
+          sleep 3;
+       done
+
+  - name: c2 
+    image: debian
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/folder2
+    command: ["/bin/sh","-c"]
+    args:
+     - while true; do
+          date >> /usr/folder2/index.html;
+          sleep 3;
+       done
+
+

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: two-app 
+spec:
+  selector:
+    matchLabels:
+      app: two-app
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: two-app
+    spec:
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      containers:
+      - name: nginx-container
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html
+
+      - name: debian-container
+        image: debian
+        volumeMounts:
+        - name: shared-data
+          mountPath: /pod-data
+        command: ["/bin/sh","-c"]
+        args:
+         - while true; do
+              date >> /pod-data/index.html;
+              echo "<br>" >> /pod-data/index.html;
+              sleep 1;
+           done
+
+
