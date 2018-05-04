@@ -67,9 +67,12 @@ Then run `kubectl create -f helm.rbac.config.yaml`
 ```helm repo update```
 it equals to "apt-get update" in Ubuntu
 
-# 5. install something , like `helm install stable/nginx-ingress` to install `nginx-ingress` chart.
+# 5. install something
+like `helm install stable/nginx-ingress` to install `nginx-ingress` chart.
 
-# 6. `helm ls` to check what chart(similar to package concept) in your cluster.
+# 6. list charts
+`helm ls` to check what chart(similar to package concept) in your cluster.
 
-# 7. `helm delete my-release` to delete a package.
+# 7. delete package
+`helm delete my-release` to delete a package.
 
