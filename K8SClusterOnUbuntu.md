@@ -1,6 +1,13 @@
 # Install Kubernetes Cluster on Ubuntu 16.04
 
 
+* [Prerequisite](K8SClusterOnUbuntu.md#Prerequisite)
+* [1.Install K8S Services](K8SClusterOnUbuntu.md#1.Install-k8s-services )
+* [2.Init Master](K8SClusterOnUbuntu.md#2init-master)
+* [3.Add a Slave (Minions)](K8SClusterOnUbuntu.md#3add-a-slave-minions)
+* [4.Kubernetes Dashboard](K8SClusterOnUbuntu.md#4-k8s-dashboard)
+* [5.Re-init the cluster](K8SClusterOnUbuntu.md#re-init-the-cluster-master)
+* [6.FAQ](K8SClusterOnUbuntu.md#faq)
 
 # Prerequisite
 
@@ -10,7 +17,9 @@
 
 # Steps
 
-## 1.Install k8s tools ( Both on  K8S Master & K8S Minions(slave)) 
+## 1.Install k8s services 
+
+**( Both on  K8S Master & K8S Minions(slave)) **
 
 * 1.1 add GPG key
 ```curl https://packages.cloud.google.com/apt/doc/apt-key.gpg --insecure | sudo apt-key add -```
@@ -164,14 +173,17 @@ kubectl create -f https://raw.githubusercontent.com/rootsongjc/kubernetes-handbo
 kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d " " -f1`|grep "token:"|tr -s " "|cut -d " " -f2
 ```
 
-# Re-init the Cluster Master:
+#5. Re-init the Cluster Master:
 
+For Master:
 There're a script for your reference:
 https://github.com/panpan0000/KubernetesNotes/blob/master/reinit-k8s.sh
 
+For Minions:
+`kubeadm reset` then `kubeadm join .......` again (Note: using updated token/secert from master)
 
 
-#  FAQ
+#6.  FAQ
 
 
 * 1.Q: When if master node is restarted (or docker service restarted ), typically, k8s will restart itself (since kubelet is running as systemd service). but sometimes error may pop up : 
@@ -228,6 +240,35 @@ https://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm/
 * 5.Q: based on my own experience. don't make master joining the workload (by changing master taint),
 
 * 5.A: it will makes k8s service unstable (and insecute )
+
+
+* 6.Q: 
+After re-join a minions node, if you found issue `no IP addresses available in range set` like below:
+```
+ E1216 23:50:16.116098   28152 pod_workers.go:186] Error syncing pod 6f5b9673-e2b5-11e7-a0f5-001e67d35991 ("kube-dns-6f4fd4bdf-xrj4w_kube-system(6f5b9673-e2b5-11e7-a0f5-001e67d35991)"), skipping: failed to "CreatePodSandbox" for "kube-dns-6f4fd4bdf-xrj4w_kube-system(6f5b9673-e2b5-11e7-a0f5-001e67d35991)" with CreatePodSandboxError: "CreatePodSandbox for pod \"kube-dns-6f4fd4bdf-xrj4w_kube-system(6f5b9673-e2b5-11e7-a0f5-001e67d35991)\" failed: rpc error: code = Unknown desc = NetworkPlugin cni failed to set up pod \"kube-dns-6f4fd4bdf-xrj4w_kube-system\" network: failed to allocate for range 0: no IP addresses available in range set: 10.244.0.1-10.244.0.254"
+ ```
+* 6.A: You will have to delete the cni/flannel interface on the minions/slave node, then do the `kubeadm join`
+```
+sudo kubeadm reset
+sudo systemctl stop kubelet
+sudo systemctl stop docker.service
+
+sudo rm -rf /var/lib/cni/
+sudo rm -rf /var/lib/kubelet/*
+sudo rm -rf /etc/cni/
+sudo ifconfig cni0 down
+sudo ifconfig flannel.1 down
+sudo ifconfig docker0 down
+sudo ip link delete cni0
+sudo ip link delete flannel.1
+
+sudo systemctl start kubelet
+sudo systemctl start docker.service
+```
+# https://github.com/kubernetes/kubernetes/issues/57280 #
+
+
+
 
 
 * More general FAQ:
