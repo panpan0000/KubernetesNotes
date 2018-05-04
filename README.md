@@ -5,7 +5,7 @@
    
    ***Keywords: master , slave, Dashboard, FAQ ***
    
-2. MiniKube Usage:https://github.com/panpan0000/KubernetesNotes/blob/master/MiniKubeUsage
+2. MiniKube Usage:https://github.com/panpan0000/KubernetesNotes/blob/master/MiniKubeUsage.md
 
     ***Key Issue to Resolve: ***
    * CN: 使用minikube 怎么解决x509证书问题(x509: certificate signed by unknown authority)
