@@ -31,7 +31,16 @@ kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-syste
           for cluster, ensure core service, `kube-proxy`,`kube-scheduler`,`etcd`,`kube-controller-manager`,`kube-apiserver` are running. and CNI plugin like `kube-flannel` also running if there're multiple minions.
 
 ---
+Q: **NodePort not working**
 
+It's common that your service already been exposed by NodePort, but you can't access it in browser either from master or remote machine.
+
+Hint 1: `kubectl describe svc your-service` , to check the service `Selector` aligns the `Labels` from `kubectl describe deploy your-deployment`
+
+Hint 2: the minions node are running firewall ufw. and the port was disabled by ufw. simply fix is `sudo ufw disable` to disable it from next boot up , then `sudo service ufw stop` to stop it immediatily.
+
+
+---
 
  Q: **Volume Binding Error**
 ```
