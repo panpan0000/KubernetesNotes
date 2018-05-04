@@ -36,7 +36,8 @@ Then check if `tiller-deploy-xxx` exists and running by `kubectl get pods -n kub
 
 
 
-# 3. NOTE, K8S 1.10 enables RBAC, so we should create account for Tiller, and bind it to cluster-admin role
+# 3. Tiller Account !!
+NOTE, K8S 1.10 enables RBAC, so we should create account for Tiller, and bind it to cluster-admin role
 create a file `helm.rbac.config.yaml` with below content:
 ```
 apiVersion: v1
