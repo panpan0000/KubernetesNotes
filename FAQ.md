@@ -1,5 +1,5 @@
 
-Q: **deployments.extensions "kubernetes-dashboard" not found**
+### Q: **deployments.extensions "kubernetes-dashboard" not found**
 
   when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    （
 `Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
@@ -9,7 +9,7 @@ A:that's because default namespace is "default", specify ns clearly to pointing 
 
 ----
 
-Q: **How to debug issues ?**  Below are Debugging Tips 
+### Q: **How to debug issues ?**  Below are Debugging Tips 
 
    * 1.  "kubecel describe" to check the last event, usually, it will provide you hint, like image pull failure.
 ```
@@ -31,7 +31,7 @@ kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-syste
           for cluster, ensure core service, `kube-proxy`,`kube-scheduler`,`etcd`,`kube-controller-manager`,`kube-apiserver` are running. and CNI plugin like `kube-flannel` also running if there're multiple minions.
 
 ---
-Q: **NodePort not working**
+### Q: **NodePort not working**
 
 It's common that your service already been exposed by NodePort, but you can't access it in browser either from master or remote machine.
 
@@ -42,7 +42,7 @@ Hint 2: the minions node are running firewall ufw. and the port was disabled by 
 
 ---
 
- Q: **Volume Binding Error**
+ ### Q: **Volume Binding Error**
 ```
 Error:Unable to create a persistent volume with a default storage class
 ```
@@ -55,13 +55,15 @@ Error:Unable to create a persistent volume with a default storage class
 
 ----
 
-Q: **mysql issue in toturial** : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+### Q: **mysql issue in toturial** :
+if you are following  https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
 ERROR 1130 (HY000): Host '10.244.1.39' is not allowed to connect to this MySQL server
 A: Check https://github.com/kubernetes/website/issues/8152
 
 -----
 
-Q: **HPA issue in toturial**: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+### Q: **HPA issue in toturial**: 
+if you are following https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
 HPA always return unknown `   <unknown> / 50% `
 A: Check my issue and resolution : https://github.com/kubernetes/website/issues/8173
 
