@@ -11,10 +11,10 @@
    https://github.com/panpan0000/KubernetesNotes/blob/master/MiniKubeUsage.md
 
 ### 3. Common FAQ:
-    https://github.com/panpan0000/KubernetesNotes/blob/master/FAQ.md
+   https://github.com/panpan0000/KubernetesNotes/blob/master/FAQ.md
    
 
-### 4. Steaful App:
+### 4. StatefulSet App:
    About Creating a stateful MySQL, please refer to deploy/mysql_single-instance-stateful-application
 
 ### 5. Install Helm (k8S's apt-get)
