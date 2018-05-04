@@ -164,14 +164,21 @@ kubectl create -f https://raw.githubusercontent.com/rootsongjc/kubernetes-handbo
 kubectl -n kube-system describe secret `kubectl -n kube-system get secret|grep admin-token|cut -d " " -f1`|grep "token:"|tr -s " "|cut -d " " -f2
 ```
 
+# Re-init the Cluster Master:
+
+There're a script for your reference:
+https://github.com/panpan0000/KubernetesNotes/blob/master/reinit-k8s.sh
+
 
 
 #  FAQ
-* 1.Q: When if master node is restarted (or docker service restarted ), error pops up : 
+
+
+* 1.Q: When if master node is restarted (or docker service restarted ), typically, k8s will restart itself (since kubelet is running as systemd service). but sometimes error may pop up : 
 ```
 error: Couldn't get available api versions from server: Get https://10.62.**.**:6443/api: dial tcp 10.62.**.**:6443: getsockopt: connection refused
 ```
-* 1.A:  (1) Check if k8s services contains are running, especially the k8s_kube-apiserver. if not ,restart OS again
+* 1.A:  (1) Check if k8s services contains are running, especially the `k8s_kube-apiserver`. if not ,restart OS again
 
 ```
 docker ps |grep k8s_kube-apiserver
@@ -184,6 +191,8 @@ rm $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
+
 
 * 2.Q: Pod failure, when `describe pod`, Error Message:
 ```
@@ -220,50 +229,10 @@ https://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm/
 
 * 5.A: it will makes k8s service unstable (and insecute )
 
-* 6.Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
-`Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
-* 6.A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
-`kubectl get deploy kubernetes-dashboard --namespace=kube-system`
 
+* More general FAQ:
+https://github.com/panpan0000/KubernetesNotes/blob/master/FAQ.md
 
-* 7.Q: Debugging Tips 
-* 7.A:
-   * 1.  "kubecel describe" to check the last event
-```
-kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-system
-```
-
-    * 2. check system kubelet logs
-```
-sudo journalctl -u kubelet
-```
-
-    * 3. Step in and Check container 
-```
-kubectl logs  $POD -c $ContainerName
-kubectl exec -it $POD  -c $ContainerName  -- /bin/bash
-```
-
-
-* 8.Q: Volume Binding
-```
-Error:Unable to create a persistent volume with a default storage class
-```
-* 8.A:Check the PVC StorageClassName aligns PV
-
-* 9.Q:even previous PVC deleted,  a new PVC can't claim and bind to a PV:     
-```Error :    storageclass.storage.k8s.io "manual" not found```
-* 9.A: PV default recycle strategy is "Retain", even previous PVC deleted, but its data still persist , and PV still occupied. you can delete/re-create that PV.
-
-
-
-* 10.Q: mysql issue in toturial : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
-ERROR 1130 (HY000): Host '10.244.1.39' is not allowed to connect to this MySQL server
-* 10.A: Check https://github.com/kubernetes/website/issues/8152
-
-* 11.Q: HPA issue in toturial: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-HPA always return unknown `   <unknown> / 50% `
-* 11.A: Check my issue and resolution : https://github.com/kubernetes/website/issues/8173
 
 
 # Reference:
