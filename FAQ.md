@@ -1,3 +1,9 @@
+["kubernetes-dashboard" not found](FAQ.md#q-deploymentsextensions-kubernetes-dashboard-not-found)
+[Debugging Tips ](FAQ.md#q-how-to-debug-issues---below-are-debugging-tips)
+[NodePort not working](FAQ.md#q-nodeport-not-working)
+[Volume binding](FAQ.md#q-volume-binding-error)
+[mysql issue](FAQ.md#q-mysql-issue-in-toturial-)
+[HPA issue](FAQ.md#q-hpa-issue-in-toturial)
 
 ### Q: **deployments.extensions "kubernetes-dashboard" not found**
 
@@ -63,6 +69,7 @@ A: Check https://github.com/kubernetes/website/issues/8152
 -----
 
 ### Q: **HPA issue in toturial**: 
+HPA: Horizontal Pod AutoScale
 if you are following https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
 HPA always return unknown `   <unknown> / 50% `
 A: Check my issue and resolution : https://github.com/kubernetes/website/issues/8173
