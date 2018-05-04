@@ -49,15 +49,14 @@ https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
 
 ## 4.Install Google Certificate in local machine & then inside Minikube
------PLEASE SKIP-------
-(seems helpless, though... No idea how to make it works actually ...)
 
 There're 2 sites for minikube iso images(downloaded from host ) and k8s docker images(downloaded inside minikube VM).
 ```
 echo -n | openssl s_client -showcerts -connect storage.googleapis.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /usr/local/share/ca-certificates/googleapis.crt
 update-ca-certificates
 ```
-above is not working. Below can be also ..
+
+after minikube is started, get into minikube and install the cert again... then restart minikube
 ```
 minikube ssh
 sudo su
