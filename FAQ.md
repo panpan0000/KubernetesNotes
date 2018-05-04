@@ -1,12 +1,16 @@
-Q: when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    
-`Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
+
+Q: **deployments.extensions "kubernetes-dashboard" not found**
+
+  when query k8s system pod/deploy/service, example : `kubectl get deploy kubernetes-dashboard`  :    （
+`Error:   Error from server (NotFound): deployments.extensions "kubernetes-dashboard" not found`
 
 A:that's because default namespace is "default", specify ns clearly to pointing kube-system         :
 `kubectl get deploy kubernetes-dashboard --namespace=kube-system`
 
 ----
 
-Q: How to debug issues ? Below are Debugging Tips 
+Q: **How to debug issues ?**  Below are Debugging Tips 
+
    * 1.  "kubecel describe" to check the last event, usually, it will provide you hint, like image pull failure.
 ```
 kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-system
@@ -29,10 +33,7 @@ kubectl describe po kubernetes-dashboard-7d5dcdb6d9-cbph5 --namespace=kube-syste
 ---
 
 
-          
----
-
- Q: Volume Binding Error:
+ Q: **Volume Binding Error**
 ```
 Error:Unable to create a persistent volume with a default storage class
 ```
@@ -45,13 +46,13 @@ Error:Unable to create a persistent volume with a default storage class
 
 ----
 
-Q: mysql issue in toturial : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+Q: **mysql issue in toturial** : https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
 ERROR 1130 (HY000): Host '10.244.1.39' is not allowed to connect to this MySQL server
 A: Check https://github.com/kubernetes/website/issues/8152
 
 -----
 
-Q: HPA issue in toturial: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+Q: **HPA issue in toturial**: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
 HPA always return unknown `   <unknown> / 50% `
 A: Check my issue and resolution : https://github.com/kubernetes/website/issues/8173
 
