@@ -1,14 +1,27 @@
 # KubernetesNotes
 
-1. Install K8S Cluster on Ubuntu 16.04s:
+
+
+
+## 1. Install K8S Cluster on Ubuntu 16.04s:
    https://github.com/panpan0000/KubernetesNotes/blob/master/K8SClusterOnUbuntu.md
-   
-   ***Keywords: master , slave, Dashboard, FAQ ***
-   
-2. MiniKube Usage:https://github.com/panpan0000/KubernetesNotes/blob/master/MiniKubeUsage.md
 
-    ***Key Issue to Resolve: ***
-   * CN: 使用minikube 怎么解决x509证书问题(x509: certificate signed by unknown authority)
-   * EN: This article is mainly for some Corp User, who have limited access to google websites.example (x509: certificate signed by unknown authority) 
+   
+## 2. MiniKube Usage: 
+   https://github.com/panpan0000/KubernetesNotes/blob/master/MiniKubeUsage.md
 
-3. About Creating a stateful MySQL, please refer to deploy/mysql_single-instance-stateful-application
+## 3. Common FAQ:
+    https://github.com/panpan0000/KubernetesNotes/blob/master/FAQ.md
+   
+
+## 4. Steaful App:
+   About Creating a stateful MySQL, please refer to deploy/mysql_single-instance-stateful-application
+
+## 5. Install Helm (k8S's apt-get)
+   https://github.com/panpan0000/KubernetesNotes/blob/master/Install-Helm.md
+   
+## 6. Ingress How To
+   https://github.com/panpan0000/KubernetesNotes/blob/master/IngressHowTo.md
+   
+## 7. Prometheus with K8S
+   https://github.com/panpan0000/KubernetesNotes/blob/master/Prometheus.md
