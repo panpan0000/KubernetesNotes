@@ -38,6 +38,10 @@ sudo su
 echo -n | openssl s_client -showcerts -connect storage.googleapis.com:443 2>/dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /usr/local/share/ca-certificates/googleapis.crt
 update-ca-certificates
 ```
+in order to `docker pull` critical docker images from site `gcr.io`..etc, beside the cetificate adding, you need to restart docker engine
+```
+sudo service docker restart
+```
 
 * 1.4. Install K8S tools
 ```
