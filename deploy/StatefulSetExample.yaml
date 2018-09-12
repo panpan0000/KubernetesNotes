@@ -42,7 +42,7 @@ spec:
               - IPC_LOCK
         lifecycle:
           preStop:
-              exec:
+            exec:
               command:
               - /bin/sh
               - -c
